@@ -2,33 +2,37 @@ import React, {useState, useEffect, useCallback} from 'react';
 import './about.scss';
 import Layout from '../layout/layout';
 import axios from "axios";
-import {Table, Tag, Space, Input} from 'antd';
+import {Table, Tag, Space, Input, Modal, Button} from 'antd';
+import _ from "lodash"
 
-const { Search } = Input;
+const {Search} = Input;
 
 const About = props => {
     let [id, changeId] = useState(props.id || 1)
-    let [data, updateData] = useState([]);
+    let [data, updateData] = useState([])
+    let [cacheData, updateCacheData] = useState([])
 
     let columns = [
         {
-            title: 'Name',
+            title: '姓名',
             dataIndex: 'name',
             key: 'name',
-            render: text => <a>{text}</a>,
+            render: text => <a onClick={() => {
+                console.log(text)
+            }}>{text}</a>,
         },
         {
-            title: 'Age',
+            title: '年龄',
             dataIndex: 'age',
             key: 'age',
         },
         {
-            title: 'Address',
+            title: '住址',
             dataIndex: 'address',
             key: 'address',
         },
         {
-            title: 'Tags',
+            title: '标签',
             key: 'tags',
             dataIndex: 'tags',
             render: tags => (
@@ -59,31 +63,45 @@ const About = props => {
         },
     ];
 
-    const getList = useCallback(() => {
-        axios.get(`/v2/getList/id=${id}`, {
-        }).then(res => {
-            updateData(res.data.data)
-            console.log('api fetched')
+    const getList = useCallback(_.debounce(didCancel => {
+        axios.get(`/v2/getList/id=${id}`, {}).then(res => {
+            if (!didCancel) {
+                updateData(res.data.data)
+                updateCacheData(res.data.data)
+                console.log('Api Fetched')
+            }
         }).catch(err => {
             console.log(err)
         })
-    }, [id])
+    }, 1000), [id])
 
-    const onSearch = (id)=> {
-        changeId(id)
+    const onSearch = name => {
+        console.log(cacheData)
+        const searchData = cacheData.filter(item => {
+            return item.name.indexOf(name) >= 0
+        })
+        updateData(searchData)
     }
 
     useEffect(() => {
-        getList()
+        let didCancel = false
+        getList(didCancel)
+        return () => {
+            didCancel = true
+        }
     }, [getList])
 
     return (
         <Layout style={{minHeight: '100vh'}}>
-            <Space direction="vertical">
-                <Search placeholder="input search text" onSearch={onSearch} enterButton />
+            <div className="spacing"></div>
+            <Space>
+                <Button type="primary" onClick={() => {
+                    changeId(2)
+                }}>获取数据</Button>
+                <Search placeholder="input search name" onSearch={onSearch} enterButton/>
             </Space>
-
-            <Table columns={columns} dataSource={data} />
+            <div className="spacing"></div>
+            <Table columns={columns} dataSource={data}/>
         </Layout>
     );
 }

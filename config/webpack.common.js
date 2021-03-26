@@ -1,6 +1,7 @@
 const path = require("path")
 const paths = require("./paths");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const os = require("os")
 const HappyPack = require("happypack");
 const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length});
@@ -9,6 +10,15 @@ const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length});
 const scriptRegex = /\.(js|jsx|ts|tsx)$/;
 const imageInlineSizeLimit = 4 * 1024;
 
+let cacheStatus
+if (process.env.npm_config_nocache || process.env.NODE_ENV === "production") {
+    cacheStatus = false
+} else {
+    cacheStatus = {
+        type: "filesystem"
+    }
+}
+
 module.exports = {
     mode: process.env.NODE_ENV,
     entry: paths.appIndexJs,
@@ -16,10 +26,7 @@ module.exports = {
         path: paths.appBuild,
         publicPath: "/"
     },
-    // cache: {
-    //     // 使用持久化缓存，修改配置，需要临时注释掉
-    //     type: "filesystem",
-    // },
+    cache: cacheStatus,
     devtool: false,
     resolve: {
         modules: [paths.appNodeModules],
@@ -76,10 +83,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./public/index.html"
         }),
+        new LodashModuleReplacementPlugin,
         new HappyPack({
             id: "babel",
             loaders: [{
-                loader:"babel-loader",
+                loader: "babel-loader",
                 options: {
                     cacheDirectory: true
                 }
