@@ -7,6 +7,8 @@ const {merge} = require("webpack-merge");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const smp = new SpeedMeasurePlugin();
 
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
@@ -17,7 +19,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 process.env.NODE_ENV = "production"
 
-let productionWebpackConfig = merge(commonWebpackConfig, {
+let productionWebpackConfig = merge(commonWebpackConfig(), {
     target: "browserslist",
     mode: "production",
     output: {
@@ -85,7 +87,7 @@ let productionWebpackConfig = merge(commonWebpackConfig, {
             ]
         }]
     },
-    plugins: [
+    plugins: smp.wrap([
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: paths.appAssestsPath('css/[name].[contenthash].css')
@@ -98,7 +100,7 @@ let productionWebpackConfig = merge(commonWebpackConfig, {
             clear: false,
             width: 60,
         }),
-    ],
+    ]),
     optimization: {
         minimizer: [
             new TerserPlugin({
@@ -122,7 +124,7 @@ let productionWebpackConfig = merge(commonWebpackConfig, {
                 }))
         ],
     },
-    stats: "normal" //标准输出
+    stats: "verbose" //标准输出
 });
 if (process.env.npm_config_report) {
     const bundleAnalyzer = require("webpack-bundle-analyzer").BundleAnalyzerPlugin

@@ -1,4 +1,4 @@
 import "./home.scss"
-import Home from "./home.tsx"
+import {Home} from "./home.tsx"
 
-export default Home
+export {Home}

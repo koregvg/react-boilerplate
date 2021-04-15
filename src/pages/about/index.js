@@ -1,4 +1,4 @@
 import "./about.scss"
-import About from "./about.tsx"
+import {About} from "./about.tsx"
 
-export default About
+export {About}

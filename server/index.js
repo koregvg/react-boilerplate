@@ -15,7 +15,6 @@ const compiler = Webpack(webpackConfig);
 const devServerOptions = Object.assign({}, webpackConfig.devServer, {
     open: true, // 自动打开浏览器
     historyApiFallback: true,
-    // hot: true,
     contentBase: path.join(__dirname, '../src'),
     proxy: appConfig.proxyTable,
     compress: true, // gzip 压缩

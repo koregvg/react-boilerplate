@@ -6,9 +6,7 @@
   "dependencies": {
     "antd": "^4.13.1",
     "axios": "^0.21.1",
-    "babel-plugin-lodash": "^3.3.4",
-    "lodash": "^4.17.21",
-    "lodash-webpack-plugin": "^0.11.6",
+    "lodash-es": "^4.17.21",
     "normalize.css": "^8.0.1",
     "qs": "^6.10.1",
     "react": "^17.0.1",
@@ -24,6 +22,7 @@
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.13.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+    "@types/lodash-es": "^4.17.4",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "@types/react-router-dom": "^5.1.7",
@@ -88,5 +87,6 @@
     "Firefox > 20",
     "last 2 versions"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "https://github.com/koregvg/react-boilerplate.git"
 }

@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://biolerplate/./src/pages/about/about.scss"],"names":[],"mappings":"AAAA,QACE,WAAY,CACZ,YAAa,CACb,kDAAiC,CACjC,sBAAwB","file":"static/css/683.b2e5c8bde5273e2888c1.css","sourcesContent":[".my-png {\n  width: 100px;\n  height: 100px;\n  background: url(\"img/animal.jpg\");\n  background-size: contain;\n}"],"sourceRoot":""}

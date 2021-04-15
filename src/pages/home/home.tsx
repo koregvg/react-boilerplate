@@ -1,6 +1,6 @@
 import React from 'react';
 import './home.scss';
-import Layout from '../layout/layout'
+import {Layouts} from '../layout/layout'
 
 class Home extends React.Component {
     state = {};
@@ -8,9 +8,9 @@ class Home extends React.Component {
     render() {
         const {collapsed} = this.state;
         return (
-            <Layout style={{minHeight: '100vh'}}>1234567</Layout>
+            <Layouts style={{minHeight: '100vh'}}>1234567</Layouts>
         );
     }
 }
 
-export default Home
+export {Home}

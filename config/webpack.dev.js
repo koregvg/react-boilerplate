@@ -11,7 +11,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 process.env.NODE_ENV = "development"
 
-module.exports = merge(commonWebpackConfig, {
+module.exports = merge(commonWebpackConfig(), {
     target: "web",
     mode: "development",
     module: {

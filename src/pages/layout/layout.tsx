@@ -44,4 +44,4 @@ class Layouts extends React.Component {
     }
 }
 
-export default Layouts
+export {Layouts}
